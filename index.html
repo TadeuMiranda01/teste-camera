@@ -56,22 +56,42 @@ teste.forEach(el => {
   style="width:100%; height:600px; border:0;">
 </iframe> -->
 
-  <script type="module">
-import { Room, VideoView } from "@whereby.com/browser-sdk";
+<video id="video" autoplay playsinline></video>
+<canvas id="output" width="640" height="480"></canvas>
 
-const room = new Room({ roomUrl: "https://whereby.com/testestesdadadastadeu" });
+<script type="module">
+import '@mediapipe/selfie_segmentation/selfie_segmentation.js';
 
-await room.join();
+const video = document.getElementById('video');
+const canvas = document.getElementById('output');
+const ctx = canvas.getContext('2d');
 
-document.body.appendChild(
-  new VideoView({
-    stream: room.localParticipant.streams.camera,
-    effects: {
-      background: { type: "blur" } // blur, image ou video
-    }
-  })
-);
+navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+  video.srcObject = stream;
+});
+
+const selfieSegmentation = new SelfieSegmentation({ locateFile: (file) =>
+  `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`
+});
+
+selfieSegmentation.setOptions({ modelSelection: 1 });
+selfieSegmentation.onResults(results => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(results.segmentationMask, 0, 0, canvas.width, canvas.height);
+
+  // "recorta" só a pessoa
+  ctx.globalCompositeOperation = 'source-in';
+  ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = 'source-over';
+});
+
+async function processFrame() {
+  await selfieSegmentation.send({ image: video });
+  requestAnimationFrame(processFrame);
+}
+video.onloadeddata = processFrame;
 </script>
+
 
 
 
