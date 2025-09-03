@@ -3,24 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teste API</title>
+  <title>Whereby Custom Video Call</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    video {
+      width: 45%;
+      margin: 5px;
+      border-radius: 12px;
+      background: #111;
+    }
+  </style>
 </head>
 <body>
-  <p>Webcam: </p>
+  <!-- Vídeo local e remoto -->
+  <video id="localVideo" autoplay playsinline muted></video>
+  <video id="remoteVideo" autoplay playsinline></video>
 
-  <div id="whereby"></div>
+  <script type="module">
+    import { WherebyRoom } from "https://cdn.skypack.dev/@whereby/js-sdk";
 
-<script type="module">
-  import { WherebyEmbed } from "https://cdn.skypack.dev/@whereby/embed";
+    // ⚠️ Essa parte deve vir do seu BACKEND
+    // Aqui você precisa gerar uma sala e pegar o `roomUrl` + `participantToken`
+    const roomUrl = "https://umano-tec.whereby.com/testeapiroom2e5b1d84-ad66-4de0-9357-590f59e0442f";
 
-  const whereby = new WherebyEmbed("#whereby", {
-    room: "testeapiroom2e5b1d84-ad66-4de0-9357-590f59e0442f", // apenas o nome da sala, sem domínio
-    domain: "umano-tec.whereby.com"
-  });
+    const room = new WherebyRoom({
+      roomUrl,
+      localVideoEl: document.getElementById("localVideo"),
+    });
 
-  whereby.join();
-</script>
+    // Quando alguém entrar, mostrar o vídeo remoto
+    room.on("participantJoined", (participant) => {
+      participant.on("track", (track) => {
+        if (track.kind === "video") {
+          const remoteVideo = document.getElementById("remoteVideo");
+          remoteVideo.srcObject = new MediaStream([track]);
+        }
+      });
+    });
 
+    // Entrar na sala
+    await room.join();
+  </script>
 </body>
 </html>
-
