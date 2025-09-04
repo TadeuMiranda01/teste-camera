@@ -7,49 +7,20 @@
 </head>
 <body>
 
+  <script src="https://cdn.srv.whereby.com/embed/v2-embed.js" type="module"></script>
+
+<whereby-embed
+    room="https://umano-tec.whereby.com/testeapiroom2e5b1d84-ad66-4de0-9357-590f59e0442f"
+    style="width: 100%; height: 600px; border: 0;"
+    toolbar="off">
+</whereby-embed>
+
+<style>
+  whereby-embed::part(toolbar) {
+    display: none !important;
+  }
+</style>
 
 
-<script src="https://cdn.srv.whereby.com/embed/v3-embed.js" type="module"></script>
-
-            <style>
-                /* Faz o vídeo ocupar toda a área do contêiner */
-                .call-wrap {
-                    position: relative;
-                    width: 100%;
-                    height: 70vh;     /* ajuste como quiser (ex.: 100vh) */
-                    max-height: 100vh;
-                    background: #000; /* fundo preto por trás do vídeo */
-                }
-                whereby-embed {
-                    position: absolute;
-                    inset: 0;
-                    width: 100%;
-                    height: 100%;
-                    border: 0;
-                }
-            </style>
-
-            <div class="call-wrap">
-                <whereby-embed
-                room="https://umano-tec.whereby.com/testeapiroom2e5b1d84-ad66-4de0-9357-590f59e0442f"
-                topToolbar="off"
-                bottomToolbar="off"
-                logo="off"
-                chat="off"
-                people="off"
-                screenshare="off"
-                moreButton="off"
-                settingsButton="off"
-                pipButton="off"
-                participantCount="off"
-                leaveButton="off"
-                toolbarText="off"
-                background="off"
-                precallReview="off"
-                precallCeremony="off"
-                lang="pt"
-                autoHideSelfView="on"
-                ></whereby-embed>
-            </div>
 </body>
 </html>
