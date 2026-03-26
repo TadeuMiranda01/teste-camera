@@ -31,13 +31,17 @@
                 }
             </style>
             <h1>TESTE WEBCAM</h1>
-           <div class="call-wrap">
-            <iframe
-              src="https://whereby.com/teste-para-2"
-              allow="camera; microphone; fullscreen" 
-              disablepictureinpicture
-              style="width:100%; height:600px; border:0;">                
-            </iframe>              
-          </div>
+            <div class="call-wrap">
+              <iframe
+                src="https://whereby.com/teste-para-2?embed=true&pip=off"
+                allow="camera; microphone; fullscreen; display-capture"
+                webkitallowfullscreen
+                mozallowfullscreen
+                allowfullscreen
+                playsinline
+                disablepictureinpicture
+                style="width:100%; height:600px; border:0;">
+              </iframe>
+            </div>
 </body>
 </html>
