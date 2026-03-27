@@ -2,46 +2,52 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Whereby Custom Video Call</title>
-
   <style>
-    html, body {
+    /* Faz o vídeo ocupar toda a área disponível */
+    body, html {
       margin: 0;
       padding: 0;
+      width: 100%;
       height: 100%;
-      background: #000;
+      overflow: hidden;
+      background-color: #000;
     }
-
     .call-wrap {
       position: relative;
       width: 100%;
       height: 100vh;
-      overflow: hidden;
+      background: #000;
     }
-
     iframe {
       position: absolute;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       border: 0;
     }
   </style>
 </head>
-
 <body>
 
-<h2 style="color:white; text-align:center;">TESTE WEBCAM</h2>
-
-           <div class="call-wrap">
-            <iframe
-              src="https://whereby.com/teste-para-2"
-              allow="camera; microphone; fullscreen" 
-              disablepictureinpicture
-              style="width:100%; height:600px; border:0;">                
-            </iframe>              
-          </div>
+  <div class="call-wrap">
+    <!-- 
+      ATRIBUTOS CRÍTICOS ABAIXO:
+      1. playsinline: Impede o iPhone de abrir o player nativo (tela cheia/pip).
+      2. disablepictureinpicture: Remove o botão de destaque do navegador.
+      3. URL ?embed=true&pip=off: Remove controles internos do Whereby.
+    -->
+    <iframe
+      src="https://whereby.com/teste-para-2"
+      allow="camera; microphone; fullscreen; display-capture"
+      playsinline
+      webkit-playsinline
+      disablepictureinpicture
+      disableremoteplayback
+    ></iframe>
+  </div>
 
 </body>
 </html>
